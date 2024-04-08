@@ -1,8 +1,10 @@
 package com.example.Books.service;
 
+import com.example.Books.maps.BookDTOConverter;
 import com.example.Books.dto.BookDTO;
 import com.example.Books.model.Book;
 import com.example.Books.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +16,24 @@ public class BookServiceImpl implements BookService{
 
     private BookRepository bookRepository;
 
+    @Autowired
+    BookDTOConverter bookDTOConverter;
+
     public BookServiceImpl(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
 
     @Override
+    public BookDTO getAllBooks() {
+        return null;
+    }
+
+    @Override
     public List<BookDTO> findAllBooks() {
         List<Book> books = bookRepository.findAll();
-        return books.stream().map(this::mapToBookDTO).collect(Collectors.toList()).reversed();
+        return books.stream()
+                .map(bookDTOConverter::covertBooktoBookDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<Book> findBook(Long id) {
@@ -55,11 +67,5 @@ public class BookServiceImpl implements BookService{
         return bookRepository.save(book);
     }
 
-    private BookDTO mapToBookDTO(Book book){
-        return BookDTO.builder()
-                .id(book.getId())
-                .author(book.getAuthor())
-                .bookName(book.getBookName())
-                .build();
-    }
+
 }

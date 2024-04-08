@@ -9,6 +9,9 @@ import java.util.Optional;
 
 @Service
 public interface BookService {
+
+    public BookDTO getAllBooks();
+
     List<BookDTO> findAllBooks();
 
     Book saveBook(Book book);
