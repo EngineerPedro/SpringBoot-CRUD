@@ -5,6 +5,7 @@ import com.example.Books.dto.BookDTO;
 import com.example.Books.model.Book;
 import com.example.Books.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,16 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public BookDTO retrieveBookById(Long id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            return  bookDTOConverter.covertBooktoBookDTO(book.get());
+        } else {
+            throw new ResourceNotFoundException("Book not found");
+        }
+    }
+
+    @Override
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(
@@ -50,7 +61,7 @@ public class BookServiceImpl implements BookService{
         bookRepository.delete(book);
     }
 
-    public Book saveBook(Book bookDTO) {
+    public Book createNewBook(Book bookDTO) {
         Book book = new Book();
         book.setId(bookDTO.getId());
         book.setAuthor(bookDTO.getAuthor());

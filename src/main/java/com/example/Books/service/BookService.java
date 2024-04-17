@@ -14,11 +14,13 @@ public interface BookService {
 
     List<BookDTO> findAllBooks();
 
-    Book saveBook(Book book);
+    Book createNewBook(Book book);
 
     Book updateBook(Long id, String author, String bookName);
 
     Optional<Book> findBook(Long id);
+
+    BookDTO retrieveBookById(Long id);
 
     void deleteBook(Long id);
 }

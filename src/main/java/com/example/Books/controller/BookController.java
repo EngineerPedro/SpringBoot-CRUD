@@ -24,9 +24,15 @@ public class BookController {
         return bookService.findAllBooks();
     }
 
+    @GetMapping("/books/{id}")
+    public BookDTO getBookById(@PathVariable Long id) {
+
+        return bookService.retrieveBookById(id);
+    }
+
     @PostMapping("/books")
     public ResponseEntity<Object> createBook(@RequestBody Book book) {
-        Book savedBook = bookService.saveBook(book);
+        Book savedBook = bookService.createNewBook(book);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedBook.getId()).toUri();
