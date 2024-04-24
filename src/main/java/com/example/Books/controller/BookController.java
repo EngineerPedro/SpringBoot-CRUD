@@ -3,6 +3,7 @@ package com.example.Books.controller;
 import com.example.Books.dto.BookDTO;
 import com.example.Books.model.Book;
 import com.example.Books.service.BookService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,7 +38,7 @@ public class BookController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedBook.getId()).toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.ok().header(HttpHeaders.LOCATION, location.toString()).body(savedBook);
     }
 
     @PutMapping("/books/{id}")

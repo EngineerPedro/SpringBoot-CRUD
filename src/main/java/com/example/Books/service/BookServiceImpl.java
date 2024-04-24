@@ -24,10 +24,7 @@ public class BookServiceImpl implements BookService{
         this.bookRepository = bookRepository;
     }
 
-    @Override
-    public BookDTO getAllBooks() {
-        return null;
-    }
+
 
     @Override
     public List<BookDTO> findAllBooks() {
@@ -61,11 +58,11 @@ public class BookServiceImpl implements BookService{
         bookRepository.delete(book);
     }
 
-    public Book createNewBook(Book bookDTO) {
+    public Book createNewBook(Book bookInfo) {
         Book book = new Book();
-        book.setId(bookDTO.getId());
-        book.setAuthor(bookDTO.getAuthor());
-        book.setBookName(bookDTO.getBookName());
+        book.setId(bookInfo.getId());
+        book.setAuthor(bookInfo.getAuthor());
+        book.setBookName(bookInfo.getBookName());
 
         return bookRepository.save(book);
     }
